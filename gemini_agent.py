@@ -102,6 +102,39 @@ def _build_signed_receipt(payload: dict[str, Any], signing_key) -> dict[str, Any
     }
 
 
+def _build_chain_envelope(
+    *,
+    payload: dict[str, Any],
+    signing_key,
+) -> dict[str, Any]:
+    tool_input = payload.get("tool_input", {})
+    tool_output = payload.get("tool_output")
+    chain_payload_obj = ReceiptPayload(
+        type="agent.tool_call.v1",
+        chain_id=CHAIN_ID,
+        agent_id=payload["agent_id"],
+        tool_name=payload["tool_name"],
+        tool_args_hash=hash_json(tool_input if isinstance(tool_input, dict) else {"value": tool_input}),
+        result_hash=hash_json({"tool_output": tool_output}),
+        timestamp=payload["timestamp"],
+        sequence=int(payload["sequence"]),
+        previous_receipt_hash=payload["previous_receipt_hash"],
+        metadata={"receipt_id": payload["receipt_id"], "action_type": payload["action_type"]},
+    )
+    chain_payload = chain_payload_obj.to_dict()
+    chain_receipt_hash = hash_json(chain_payload)
+    chain_sig = sign_payload(chain_payload, signing_key)
+    return {
+        "payload": chain_payload,
+        "receipt_hash": chain_receipt_hash,
+        "signature": {
+            "alg": "EdDSA",
+            "sig": chain_sig,
+            "public_key": public_key_hex(signing_key),
+        },
+    }
+
+
 def _append_signed_receipt(*, path: Path, signed_receipt: dict[str, Any]) -> None:
     receipts = _load_receipts(path)
     receipts.append(signed_receipt)
@@ -120,6 +153,7 @@ def _record_tool_receipt(tool_name: str, tool_input: dict[str, Any], tool_output
         sequence=_receipt_sequence,
     )
     signed = _build_signed_receipt(payload, _signing_key)
+    signed["chain_envelope"] = _build_chain_envelope(payload=payload, signing_key=_signing_key)
     _append_signed_receipt(path=RECEIPTS_FILE, signed_receipt=signed)
     _last_receipt_hash = signed["receipt_hash"]
     return signed
@@ -199,27 +233,14 @@ def _signature_valid(receipt: dict[str, Any]) -> bool:
 
 
 def _to_chain_receipt(receipt: dict[str, Any]) -> SignedReceipt:
-    payload = receipt["payload"]
-    tool_input = payload.get("tool_input", {})
-    tool_output = payload.get("tool_output")
-
-    converted_payload = ReceiptPayload(
-        type="agent.tool_call.v1",
-        chain_id=CHAIN_ID,
-        agent_id=payload["agent_id"],
-        tool_name=payload["tool_name"],
-        tool_args_hash=hash_json(tool_input if isinstance(tool_input, dict) else {"value": tool_input}),
-        result_hash=hash_json({"tool_output": tool_output}),
-        timestamp=payload["timestamp"],
-        sequence=int(payload["sequence"]),
-        previous_receipt_hash=payload["previous_receipt_hash"],
-        metadata={"receipt_id": payload["receipt_id"], "action_type": payload["action_type"]},
-    )
-
-    sig = receipt["signature"]
+    if "chain_envelope" not in receipt:
+        raise ValueError("Missing chain_envelope in receipt; cannot use chain/logic verification")
+    chain_env = receipt["chain_envelope"]
+    converted_payload = ReceiptPayload(**chain_env["payload"])
+    sig = chain_env["signature"]
     return SignedReceipt(
         payload=converted_payload,
-        receipt_hash=receipt["receipt_hash"],
+        receipt_hash=chain_env["receipt_hash"],
         signature=SignatureBlock(alg=sig["alg"], sig=sig["sig"], public_key=sig["public_key"]),
     )
 
@@ -238,10 +259,13 @@ def verify_receipt_chain_file(path: Path) -> tuple[bool, list[str], list[dict[st
             rid = payload.get("receipt_id", f"#{idx}")
             errors.append(f"receipt #{idx} ({rid}): invalid signature")
 
-    chain_receipts = [_to_chain_receipt(r) for r in receipts]
-    chain_result = verify_chain(chain_receipts)
-    if not chain_result.ok:
-        errors.extend(chain_result.errors)
+    try:
+        chain_receipts = [_to_chain_receipt(r) for r in receipts]
+        chain_result = verify_chain(chain_receipts)
+        if not chain_result.ok:
+            errors.extend(chain_result.errors)
+    except Exception as exc:
+        errors.append(f"chain verification unavailable: {exc}")
 
     return len(errors) == 0, errors, receipts
 
