@@ -3,3 +3,4 @@ uvicorn==0.32.1
 pydantic==2.10.3
 pynacl==1.5.0
 jcs==0.2.1
+google-generativeai==0.8.3

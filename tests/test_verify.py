@@ -31,3 +31,19 @@ def test_chain_detects_deletion():
     r2 = make_receipt(2, r1.receipt_hash)
     r3 = make_receipt(3, r2.receipt_hash)
     assert not verify_chain([r1, r3]).ok
+
+def test_tampered_payload_fails():
+    # modify a field after signing, verify should fail
+    r = make_receipt(1, "sha256:GENESIS")
+    r.payload.tool_name = "evil_tool"
+    assert not verify_receipt(r).ok
+
+def test_wrong_sequence_breaks_chain():
+    r1 = make_receipt(1, "sha256:GENESIS")
+    r2 = make_receipt(99, r1.receipt_hash)  # sequence gap
+    assert not verify_chain([r1, r2]).ok
+
+def test_genesis_hash_required():
+    # chain must start from GENESIS, not an arbitrary hash
+    r1 = make_receipt(1, "sha256:NOTGENESIS")
+    assert not verify_chain([r1]).ok
