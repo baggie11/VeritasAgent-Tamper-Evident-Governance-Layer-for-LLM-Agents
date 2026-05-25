@@ -1,0 +1,106 @@
+[
+  {
+    "payload": {
+      "type": "agent.tool_call.v1",
+      "chain_id": "live-chain",
+      "agent_id": "planner-agent",
+      "tool_name": "plan",
+      "tool_args_hash": "sha256:01b77de9468641432414939aee27f54e500a895d6698095dada648cb8bae9723",
+      "result_hash": "sha256:89c7d8731e374d5b842f44f90f189b3f3702bb2ebd6e6aa3ebe40df9cbda64cf",
+      "timestamp": "2026-05-25T05:47:33.145696+00:00",
+      "sequence": 1,
+      "previous_receipt_hash": "sha256:GENESIS",
+      "metadata": {}
+    },
+    "receipt_hash": "sha256:9aa7fce77498ed1f2e0f232eedf9b2675345b39cab7c314b50c81fdfafef4229",
+    "signature": {
+      "alg": "EdDSA",
+      "sig": "WdBpppxpXY/LFWo5pU10Eidu/iGaFVoujwnXpLDigtion9h2LjytmPHMxR5EYVI5GJgQj9QqDSpyQsXqqHoZCA==",
+      "public_key": "d04ab232742bb4ab3a1368bd4615e4e6d0224ab71a016baf8520a332c9778737"
+    }
+  },
+  {
+    "payload": {
+      "type": "agent.tool_call.v1",
+      "chain_id": "live-chain",
+      "agent_id": "research-agent",
+      "tool_name": "fetch_invoice",
+      "tool_args_hash": "sha256:afd3ae6377d737975ba2f111db265e0b714646564f9cfd1e9820cd92f36703b7",
+      "result_hash": "sha256:89c7d8731e374d5b842f44f90f189b3f3702bb2ebd6e6aa3ebe40df9cbda64cf",
+      "timestamp": "2026-05-25T05:47:33.145696+00:00",
+      "sequence": 2,
+      "previous_receipt_hash": "sha256:9aa7fce77498ed1f2e0f232eedf9b2675345b39cab7c314b50c81fdfafef4229",
+      "metadata": {},
+      "parent_receipt_hash": "sha256:9aa7fce77498ed1f2e0f232eedf9b2675345b39cab7c314b50c81fdfafef4229"
+    },
+    "receipt_hash": "sha256:6d6189d58bef25227057e635d41c52b8fe19ad68c92b587aefe0efb314813f3c",
+    "signature": {
+      "alg": "EdDSA",
+      "sig": "l5Rjjz4GFNSChxNiXTwm0e8oh1nqkf1HbAInK9+fG9up58ejtGfMl/F1/dRrkuzilthixH037Db/Laf78ijZAQ==",
+      "public_key": "a09aa5f47a6759802ff955f8dc2d2a14a5c99d23be97f864127ff9383455a4f0"
+    }
+  },
+  {
+    "payload": {
+      "type": "agent.tool_call.v1",
+      "chain_id": "live-chain",
+      "agent_id": "execution-agent",
+      "tool_name": "execute_unauthorized_transfer",
+      "tool_args_hash": "sha256:afd3ae6377d737975ba2f111db265e0b714646564f9cfd1e9820cd92f36703b7",
+      "result_hash": "sha256:34aecbbdc72b7a41f79e0fd7067ecd7360b31c754e70387b54e055a04dee6a62",
+      "timestamp": "2026-05-25T05:47:33.145696+00:00",
+      "sequence": 3,
+      "previous_receipt_hash": "sha256:6d6189d58bef25227057e635d41c52b8fe19ad68c92b587aefe0efb314813f3c",
+      "metadata": {},
+      "parent_receipt_hash": "sha256:6d6189d58bef25227057e635d41c52b8fe19ad68c92b587aefe0efb314813f3c"
+    },
+    "receipt_hash": "sha256:a6fe9189769b086fd17f899a43c2456c26487368cd9f20b8b417a5a468238e0c",
+    "signature": {
+      "alg": "EdDSA",
+      "sig": "VfddarKPA++jgYhqZNv+Jeo19afAC0Agp+KfjnxEvKimUVcw593CGVqQJkKGTITnriT5eRKJI1NKQVxxsc3XDw==",
+      "public_key": "17cb79fb2b4120f2b1ec65e4198d6e08b28e813feb01e4a400839b85e18080ce"
+    }
+  },
+  {
+    "payload": {
+      "type": "agent.tool_call.v1",
+      "chain_id": "live-chain",
+      "agent_id": "planner-agent",
+      "tool_name": "review",
+      "tool_args_hash": "sha256:f4bc85ad066673695d11536a0bb85eeeb03db1bcd14339df7cf817f69ae9c71c",
+      "result_hash": "sha256:89c7d8731e374d5b842f44f90f189b3f3702bb2ebd6e6aa3ebe40df9cbda64cf",
+      "timestamp": "2026-05-25T05:47:33.145696+00:00",
+      "sequence": 4,
+      "previous_receipt_hash": "sha256:a6fe9189769b086fd17f899a43c2456c26487368cd9f20b8b417a5a468238e0c",
+      "metadata": {},
+      "parent_receipt_hash": "sha256:a6fe9189769b086fd17f899a43c2456c26487368cd9f20b8b417a5a468238e0c"
+    },
+    "receipt_hash": "sha256:ac9bc1679bc48a73eef7dc41c0df33e31bcae8d545cfa06b6aa440d2c45e36ba",
+    "signature": {
+      "alg": "EdDSA",
+      "sig": "DKrYsUKy4VKohllE8A4KwJBVEzhymQt3IMd9d+W0W9phhxeFCMvsJHrWRMas2XOTieylRA8zql3XT7Q4Ccq9DQ==",
+      "public_key": "d04ab232742bb4ab3a1368bd4615e4e6d0224ab71a016baf8520a332c9778737"
+    }
+  },
+  {
+    "payload": {
+      "type": "agent.tool_call.v1",
+      "chain_id": "live-chain",
+      "agent_id": "execution-agent",
+      "tool_name": "finalize",
+      "tool_args_hash": "sha256:f4bc85ad066673695d11536a0bb85eeeb03db1bcd14339df7cf817f69ae9c71c",
+      "result_hash": "sha256:1cfa3cae85bfdb8ba0af143296e41325bdaa6672d2dac7d720743ccaceb5e0c4",
+      "timestamp": "2026-05-25T05:47:33.145696+00:00",
+      "sequence": 5,
+      "previous_receipt_hash": "sha256:ac9bc1679bc48a73eef7dc41c0df33e31bcae8d545cfa06b6aa440d2c45e36ba",
+      "metadata": {},
+      "parent_receipt_hash": "sha256:ac9bc1679bc48a73eef7dc41c0df33e31bcae8d545cfa06b6aa440d2c45e36ba"
+    },
+    "receipt_hash": "sha256:af700d18ba058ac8173214ed0055156c87b663b6994a3d1a733cb3f3cdd76a2a",
+    "signature": {
+      "alg": "EdDSA",
+      "sig": "DI94X3NKopsOUJMR+chSAtnRe50hJzEP3E9xZ8dAXZNkv/SUyfsaTmXL8XOJTa9EVcVslZk+h5glJC8YXtx8Ag==",
+      "public_key": "17cb79fb2b4120f2b1ec65e4198d6e08b28e813feb01e4a400839b85e18080ce"
+    }
+  }
+]
