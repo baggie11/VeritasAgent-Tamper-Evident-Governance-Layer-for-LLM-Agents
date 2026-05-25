@@ -127,6 +127,12 @@ python verify.py tampered_chain.json
 
 Works on a single receipt or a full chain file.
 
+## Outputs
+<img width="1103" height="984" alt="image" src="https://github.com/user-attachments/assets/34576c35-5b09-4439-bae2-b2c005aef08a" />
+
+<img width="1046" height="407" alt="image" src="https://github.com/user-attachments/assets/175f0194-0a3c-4689-9e84-bf8efeda823a" />
+
+
 ## Why this matters
 
 Most agent observability tools are just logging — you still have to trust whoever controls the logs.
